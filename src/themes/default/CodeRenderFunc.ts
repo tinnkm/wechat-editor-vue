@@ -1,7 +1,7 @@
 import { WxRenderOptions } from "@/components/wechat-editor/render/render";
 import { CodeRenderParam, RenderFunc, Theme } from "../theme";
 
-export class CodeRenderFunc implements RenderFunc {
+export class CodeRenderFunc extends RenderFunc {
   render(param: CodeRenderParam, wxRenderOptions?: WxRenderOptions): string {
     param.text = param.text?.replace(/</g, "&lt;") || "";
     param.text = param.text?.replace(/>/g, "&gt;");

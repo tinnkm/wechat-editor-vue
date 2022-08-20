@@ -1,10 +1,12 @@
 import { WxRenderOptions } from "@/components/wechat-editor/render/render";
 import { HeadRenderParam, RenderFunc, Theme } from "../theme";
 
-export class HeadingRenderFunc implements RenderFunc {
+export class HeadingRenderFunc extends RenderFunc {
   render(param: HeadRenderParam, wxRenderOptions?: WxRenderOptions): string {
-    const style = JSON.stringify(wxRenderOptions?.theme["h" + param.level]);
-    return `<h${param.level} style="${style}">${param.text}</h${param.level}>`;
+    return `<h${param.level} style="${super.style(
+      "h" + param.level,
+      wxRenderOptions?.theme
+    )}">${param.text}</h${param.level}>`;
   }
   supported(tag: keyof Theme): boolean {
     return (

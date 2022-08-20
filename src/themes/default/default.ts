@@ -1,4 +1,3 @@
-import { CSSProperties } from "vue";
 import { Theme } from "../theme";
 
 export const DefaultTheme: Theme = {
@@ -21,6 +20,14 @@ export const DefaultTheme: Theme = {
     color: "#FEEEED",
     background: "rgba(27,31,35,.05)",
     margin: "2em 8px",
+  },
+  blockquote__p: {
+    "letter-spacing": "0.1em",
+    color: "rgb(80, 80, 80)",
+    "font-family":
+      "PingFangSC-light, PingFangTC-light, Open Sans, Helvetica Neue, sans-serif",
+    "font-size": "1em",
+    display: "inline",
   },
   h1: {
     "font-size": "1.2em",
@@ -65,7 +72,15 @@ export const DefaultTheme: Theme = {
     "transform-origin": "0 0",
     transform: "scale(1, 0.5)",
   },
-  list: {},
+  list: {
+    "margin-left": "0",
+    "padding-left": "1em",
+    "list-style": "circle",
+  },
+  list__ordered: {
+    "margin-left": "0",
+    "padding-left": "1em",
+  },
   listitem: {
     "text-indent": "-1em",
     display: "block",
@@ -81,14 +96,49 @@ export const DefaultTheme: Theme = {
     "text-align": "center",
     margin: "1em 8px",
   },
+  thead: {
+    background: "rgba(0, 0, 0, 0.05)",
+  },
   tablerow: {},
-  tablecell: {},
+  tablecell: {
+    "font-size": "80%",
+    border: "1px solid #dfdfdf",
+    padding: "0.25em 0.5em",
+  },
   strong: {},
-  em: {},
+  em: {
+    margin: "1.5em 8px",
+    "letter-spacing": "0.1em",
+    "font-style": "italic",
+  },
   codespan: {},
   br: {},
   del: {},
-  link: {},
-  image: {},
+  link: {
+    color: "#009926",
+  },
+  wx_link: {
+    color: "#0080ff",
+    "text-decoration": "none",
+    "border-bottom": "1px solid #d1e9ff",
+  },
+  footnote: {
+    margin: "0.5em 8px",
+    "font-size": "80%",
+  },
+  image: {
+    "border-radius": "4px",
+    display: "block",
+    margin: "0.5em auto",
+    width: "100%",
+  },
+  figure: {
+    margin: "1.5em 8px",
+  },
+  figcaption: {
+    "text-align": "center",
+    color: "#888",
+    "font-size": "0.8em",
+  },
   text: {},
 };

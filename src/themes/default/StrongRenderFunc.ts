@@ -1,13 +1,13 @@
 import { WxRenderOptions } from "@/components/wechat-editor/render/render";
 import { RenderFunc, RenderParam, Theme } from "../theme";
 
-export class ParagraphRenderFunc extends RenderFunc {
+export class StrongRenderFunc extends RenderFunc {
   render(param: RenderParam, wxRenderOptions?: WxRenderOptions): string {
-    return `<p style="${super.style("paragraph", wxRenderOptions?.theme)}">${
+    return `<strong style="${super.style("strong", wxRenderOptions?.theme)}">${
       param.text
-    }</p>`;
+    }</strong>`;
   }
   supported(tag: keyof Theme): boolean {
-    return tag === "paragraph";
+    return tag === "strong";
   }
 }
