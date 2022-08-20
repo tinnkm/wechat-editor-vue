@@ -1,17 +1,21 @@
-import { DefaultTheme } from "@/themes/default/default";
-import { Theme } from "@/themes/theme";
+import { defaultThemeHelper } from "@/themes/default/DefaultTheme";
+import {
+  CheckboxRenderParam,
+  CodeRenderParam,
+  HeadRenderParam,
+  ImageRenderParam,
+  LinkRenderParam,
+  ListItemRenderParam,
+  ListRenderParam,
+  TableCellRenderParam,
+  TableRenderParam,
+  Theme,
+} from "@/themes/theme";
 import { Renderer, MarkedOptions } from "marked";
 export class WxRenderOptions extends MarkedOptions {
   fonts?: string;
   fontSize?: number;
-  theme: Theme = DefaultTheme;
-}
-
-type Tag = keyof Theme;
-
-interface RenderFunc {
-  render(text: string, options?: WxRenderOptions): string;
-  supported(tag: Tag): boolean;
+  theme: Theme = defaultThemeHelper.getTheme();
 }
 
 class WxRender<T = never> extends Renderer<T> {
@@ -31,84 +35,134 @@ class WxRender<T = never> extends Renderer<T> {
     language: string | undefined,
     isEscaped: boolean
   ): string | T {
-    code = code.replace(/</g, "&lt;");
-    code = code.replace(/>/g, "&gt;");
-
-    const lines = code.split("\n");
-    const codeLines = [];
-    const numbers = [];
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
-      codeLines.push(
-        `<code class="prettyprint"><span class="code-snippet_outer">${
-          line || "<br>"
-        }</span></code>`
-      );
-      numbers.push("<li></li>");
-    }
-    const lang = language || "";
-    return (
-      `<section class="code-snippet__fix code-snippet__js">` +
-      `<ul class="code-snippet__line-index code-snippet__js">${numbers.join(
-        ""
-      )}</ul>` +
-      `<pre class="code-snippet__js" data-lang="${lang}">` +
-      codeLines.join("") +
-      `</pre></section>`
+    return defaultThemeHelper.getRenderFunc("code").render(
+      {
+        text: code,
+        language,
+        isEscaped,
+      } as CodeRenderParam,
+      this.wxRenderOptions
     );
   }
   blockquote(quote: string): string | T {
-    quote = quote.replace(/<p.*?>/, `<p ${getStyles("blockquote_p")}>`);
-    return `<blockquote ${getStyles("blockquote")}>${quote}</blockquote>`;
+    return defaultThemeHelper.getRenderFunc("blockquote").render(
+      {
+        text: quote,
+      },
+      this.wxRenderOptions
+    );
   }
-  html(html: string): string | T;
+  html(html: string): string | T {
+    return defaultThemeHelper.getRenderFunc("html").render(
+      {
+        text: html,
+      },
+      this.wxRenderOptions
+    );
+  }
   heading(
     text: string,
     level: 1 | 2 | 3 | 4 | 5 | 6,
     raw: string,
-    slugger: Slugger
-  ): string | T;
-  hr(): string | T;
-  list(
-    body: string,
-    ordered: boolean,
-    start: number
-  ): string | T;
-  listitem(: 
-    text: string,
-    task: boolean,
-    checked: boolean
-  ): string | T;
-  checkbox( checked: boolean): string | T;
-  paragraph( text: string): string | T;
-  table(
-    header: string,
-    body: string
-  ): string | T;
-  tablerow(content: string): string | T;
+    slugger: unknown
+  ): string | T {
+    return defaultThemeHelper
+      .getRenderFunc("heading")
+      .render(
+        { text, level, raw, slugger } as HeadRenderParam,
+        this.wxRenderOptions
+      );
+  }
+  hr(): string | T {
+    return defaultThemeHelper
+      .getRenderFunc("hr")
+      .render({}, this.wxRenderOptions);
+  }
+  list(body: string, ordered: boolean, start: number): string | T {
+    return defaultThemeHelper
+      .getRenderFunc("list")
+      .render(
+        { body, ordered, start } as ListRenderParam,
+        this.wxRenderOptions
+      );
+  }
+  listitem(text: string, task: boolean, checked: boolean): string | T {
+    return defaultThemeHelper
+      .getRenderFunc("listitem")
+      .render(
+        { text, task, checked } as ListItemRenderParam,
+        this.wxRenderOptions
+      );
+  }
+  checkbox(checked: boolean): string | T {
+    return defaultThemeHelper
+      .getRenderFunc("checkbox")
+      .render({ checked } as CheckboxRenderParam, this.wxRenderOptions);
+  }
+  paragraph(text: string): string | T {
+    return defaultThemeHelper
+      .getRenderFunc("paragraph")
+      .render({ text }, this.wxRenderOptions);
+  }
+  table(header: string, body: string): string | T {
+    return defaultThemeHelper
+      .getRenderFunc("table")
+      .render({ header, body } as TableRenderParam, this.wxRenderOptions);
+  }
+  tablerow(content: string): string | T {
+    return defaultThemeHelper
+      .getRenderFunc("tablerow")
+      .render({ text: content }, this.wxRenderOptions);
+  }
   tablecell(
     content: string,
     flags: {
       header: boolean;
       align: "center" | "left" | "right" | null;
     }
-  ): string | T;
-  strong( text: string): string | T;
-  em( text: string): string | T;
-  codespan( code: string): string | T;
-  br(): string | T;
-  del( text: string): string | T;
-  link(
-    
-    href: string | null,
-    title: string | null,
-    text: string
-  ): string | T;
-  image(
-    
-    href: string | null,
-    title: string | null,
-    text: string
-  ): string | T;
-  text( text: string): string | T;
+  ): string | T {
+    return defaultThemeHelper
+      .getRenderFunc("tablecell")
+      .render({ content, flags } as TableCellRenderParam, this.wxRenderOptions);
+  }
+  strong(text: string): string | T {
+    return defaultThemeHelper
+      .getRenderFunc("strong")
+      .render({ text }, this.wxRenderOptions);
+  }
+  em(text: string): string | T {
+    return defaultThemeHelper
+      .getRenderFunc("em")
+      .render({ text }, this.wxRenderOptions);
+  }
+  codespan(code: string): string | T {
+    return defaultThemeHelper
+      .getRenderFunc("codespan")
+      .render({ text: code }, this.wxRenderOptions);
+  }
+  br(): string | T {
+    return defaultThemeHelper
+      .getRenderFunc("br")
+      .render({}, this.wxRenderOptions);
+  }
+  del(text: string): string | T {
+    return defaultThemeHelper
+      .getRenderFunc("del")
+      .render({ text }, this.wxRenderOptions);
+  }
+  link(href: string | null, title: string | null, text: string): string | T {
+    return defaultThemeHelper
+      .getRenderFunc("link")
+      .render({ href, title, text } as LinkRenderParam, this.wxRenderOptions);
+  }
+  image(href: string | null, title: string | null, text: string): string | T {
+    return defaultThemeHelper
+      .getRenderFunc("image")
+      .render({ href, title, text } as ImageRenderParam, this.wxRenderOptions);
+  }
+  text(text: string): string | T {
+    return defaultThemeHelper
+      .getRenderFunc("text")
+      .render({ text }, this.wxRenderOptions);
+  }
 }

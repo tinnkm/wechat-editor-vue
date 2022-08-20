@@ -36,6 +36,7 @@ export interface Theme {
   text: CSSProperties;
   [key: string]: CSSProperties;
 }
+export type Tag = keyof Theme;
 
 export interface RenderParam {
   text?: string;
@@ -95,8 +96,8 @@ export interface FootNoteRenderParam extends RenderParam {
 
 export abstract class RenderFunc {
   abstract render(text: RenderParam, wxRenderOptions?: WxRenderOptions): string;
-  abstract supported(tags: keyof Theme): boolean;
-  style(key: keyof Theme, theme: Theme | undefined): string {
+  abstract supported(tags: Tag): boolean;
+  style(key: Tag, theme: Theme | undefined): string {
     if (!theme) {
       return "";
     }

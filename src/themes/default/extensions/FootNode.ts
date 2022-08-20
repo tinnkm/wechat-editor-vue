@@ -1,9 +1,13 @@
+import { Plugin } from "./Plugin";
 export interface FootNoteInfo {
   index: number;
   title: string;
   link: string;
 }
-export class FootNote {
+export class FootNote implements Plugin {
+  apply(): void {
+    throw new Error("Method not implemented.");
+  }
   private index = 0;
   private footnotes = [] as Array<FootNoteInfo>;
 
