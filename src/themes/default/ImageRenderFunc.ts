@@ -8,11 +8,17 @@ export class ImageRenderFunc extends RenderFunc {
     if (param.text) {
       subText = `<figcaption style="${super.style(
         "figcaption",
-        wxRenderOptions?.theme
+        wxRenderOptions?.themeHelper.getTheme()
       )}"}>${param.text}</figcaption>`;
     }
-    const figureStyle = super.style("figure", wxRenderOptions?.theme);
-    const imageStyle = super.style("image", wxRenderOptions?.theme);
+    const figureStyle = super.style(
+      "figure",
+      wxRenderOptions?.themeHelper.getTheme()
+    );
+    const imageStyle = super.style(
+      "image",
+      wxRenderOptions?.themeHelper.getTheme()
+    );
     return `<figure style="${figureStyle}"><img style="${imageStyle}" src="${param.href}" title="${param.title}" alt="${param.text}"/>${subText}</figure>`;
   }
   supported(tag: keyof Theme): boolean {

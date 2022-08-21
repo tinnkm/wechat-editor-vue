@@ -6,9 +6,10 @@ export class ListItemRenderFunc extends RenderFunc {
     param: ListItemRenderParam,
     wxRenderOptions?: WxRenderOptions
   ): string {
+    console.log(param);
     return `<span style="${super.style(
       "listitem",
-      wxRenderOptions?.theme
+      wxRenderOptions?.themeHelper.getTheme()
     )}"><span style="margin-right: 10px;"><%s/></span>${param.text}</span>`;
   }
   supported(tag: keyof Theme): boolean {

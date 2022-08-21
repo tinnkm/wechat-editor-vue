@@ -14,10 +14,10 @@ export class FootNoteRenderFunc extends RenderFunc {
     });
     return `<h3 style="${super.style(
       "h3",
-      wxRenderOptions?.theme
+      wxRenderOptions?.themeHelper.getTheme()
     )}">References</h3><p style="${super.style(
       "footnote",
-      wxRenderOptions?.theme
+      wxRenderOptions?.themeHelper.getTheme()
     )}">${footnoteArray.join("\n")}</p>`;
   }
 

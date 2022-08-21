@@ -13,7 +13,9 @@
 <script lang="ts">
 import { defineComponent, computed } from "vue";
 import { ElMessage } from "element-plus";
-import marked from "marked";
+import { marked } from "marked";
+import { WxRender } from "./render/render";
+import { defaultThemeHelper } from "@/themes/default/DefaultTheme";
 
 export default defineComponent({
   props: {
@@ -23,7 +25,13 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const output = computed(() => marked(props.source));
+    const output = computed(() =>
+      marked(props.source, {
+        renderer: new WxRender({
+          themeHelper: defaultThemeHelper,
+        }),
+      })
+    );
 
     const method = {
       copy: () => {

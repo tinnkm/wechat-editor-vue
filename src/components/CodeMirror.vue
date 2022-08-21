@@ -49,7 +49,6 @@ export default defineComponent({
       return editorView;
     };
     onMounted(() => {
-      console.log(codeMirrorRef.value);
       createEditorView(props.markDownSource);
       editorView.focus();
     });

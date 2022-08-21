@@ -3,8 +3,11 @@ import { ListRenderParam, RenderFunc, Theme } from "../theme";
 
 export class ListRenderFunc extends RenderFunc {
   render(param: ListRenderParam, wxRenderOptions?: WxRenderOptions): string {
-    const styleOrdered = super.style("list__ordered", wxRenderOptions?.theme);
-    const style = super.style("list", wxRenderOptions?.theme);
+    const styleOrdered = super.style(
+      "list__ordered",
+      wxRenderOptions?.themeHelper.getTheme()
+    );
+    const style = super.style("list", wxRenderOptions?.themeHelper.getTheme());
     param.text = param.text?.replace(/<\/*p.*?>/g, "");
     const segments = param.text?.split(`<%s/>`) || [];
     if (!param.ordered) {

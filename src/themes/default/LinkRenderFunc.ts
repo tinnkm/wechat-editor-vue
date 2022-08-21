@@ -6,17 +6,19 @@ export class LinkRenderFunc extends RenderFunc {
     if (param.href?.indexOf("https://mp.weixin.qq.com") === 0) {
       return `<a href="${param.href}" title="${
         param.title || param.text
-      }" style="${super.style("wx_link", wxRenderOptions?.theme)}">${
-        param.text
-      }</a>`;
+      }" style="${super.style(
+        "wx_link",
+        wxRenderOptions?.themeHelper.getTheme()
+      )}">${param.text}</a>`;
     } else if (param.href === param.text) {
       return param.text;
     } else {
       return `<a href="${param.href}" title="${
         param.title || param.text
-      }" style="${super.style("link", wxRenderOptions?.theme)}">${
-        param.text
-      }</a>`;
+      }" style="${super.style(
+        "link",
+        wxRenderOptions?.themeHelper.getTheme()
+      )}">${param.text}</a>`;
     }
   }
   supported(tag: keyof Theme): boolean {

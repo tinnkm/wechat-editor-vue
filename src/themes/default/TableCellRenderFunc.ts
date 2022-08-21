@@ -6,9 +6,10 @@ export class TableCellRenderFunc extends RenderFunc {
     param: TableCellRenderParam,
     wxRenderOptions?: WxRenderOptions
   ): string {
-    return `<td style="${super.style("tableCell", wxRenderOptions?.theme)}">${
-      param.text
-    }</td>`;
+    return `<td style="${super.style(
+      "tableCell",
+      wxRenderOptions?.themeHelper.getTheme()
+    )}">${param.text}</td>`;
   }
   supported(tag: keyof Theme): boolean {
     return tag === "tablecell";
