@@ -10,24 +10,28 @@ import {
   TableCellRenderParam,
   TableRenderParam,
 } from "@/themes/theme";
+import { merge } from "@/utils/Utils";
 import { Renderer, marked } from "marked";
 export class WxRenderOptions {
   fonts?: string;
   fontSize?: number;
+  highlight?(
+    code: string,
+    lang: string,
+    callback?: (error: any, code?: string) => void
+  ): string | void;
   themeHelper: ThemeHelper = defaultThemeHelper;
 }
 
 export class WxRender<T = never> extends Renderer<T> {
   private wxRenderOptions: WxRenderOptions;
   constructor(wxRenderOptions: WxRenderOptions) {
-    super(wxRenderOptions);
+    super();
     this.wxRenderOptions = wxRenderOptions;
   }
-  private merge(base: unknown, extend: unknown): unknown {
-    return Object.assign({}, base, extend);
-  }
+
   setOptions(wxRenderOptions: WxRenderOptions) {
-    this.merge(this.wxRenderOptions, wxRenderOptions);
+    merge(this.wxRenderOptions, wxRenderOptions);
   }
   code(
     code: string,
@@ -78,12 +82,10 @@ export class WxRender<T = never> extends Renderer<T> {
       .render({}, this.wxRenderOptions);
   }
   list(body: string, ordered: boolean, start: number): string | T {
-    console.log("list 执行");
-    console.log(body, ordered, start);
     return this.wxRenderOptions.themeHelper
       .getRenderFunc("list")
       .render(
-        { body, ordered, start } as ListRenderParam,
+        { text: body, ordered, start } as ListRenderParam,
         this.wxRenderOptions
       );
   }

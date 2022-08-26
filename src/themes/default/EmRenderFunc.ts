@@ -3,10 +3,10 @@ import { RenderFunc, RenderParam, Theme } from "../theme";
 
 export class EmRenderFunc extends RenderFunc {
   render(param: RenderParam, wxRenderOptions?: WxRenderOptions): string {
-    return `<p style="${super.style(
+    return `<span  style="${super.style(
       "em",
       wxRenderOptions?.themeHelper.getTheme()
-    )}">${param.text}</p>`;
+    )}">${param.text}</span>`;
   }
   supported(tag: keyof Theme): boolean {
     return tag === "em";

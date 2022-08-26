@@ -1,6 +1,14 @@
 import { Theme } from "../theme";
 
 export const DefaultTheme: Theme = {
+  common: {
+    "text-align": "left",
+    color: "#3f3f3f",
+    "line-height": "1.75",
+    "font-size": "14px",
+    "font-family":
+      "Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, 'PingFang SC', Cambria, Cochin, Georgia, Times, 'Times New Roman', serif",
+  },
   code: {
     "font-size": "80%",
     overflow: "auto",
@@ -22,6 +30,7 @@ export const DefaultTheme: Theme = {
     margin: "2em 8px",
   },
   blockquote__p: {
+    margin: "1.5em 8px",
     "letter-spacing": "0.1em",
     color: "rgb(80, 80, 80)",
     "font-family":
@@ -61,8 +70,16 @@ export const DefaultTheme: Theme = {
     "font-size": "1em",
     margin: "2em 8px 0.5em 8px",
   },
-  h5: {},
-  h6: {},
+  h5: {
+    "font-weight": "bold",
+    "font-size": "0.9em",
+    margin: "2em 8px 0.25em 8px",
+  },
+  h6: {
+    "font-weight": "bold",
+    "font-size": "0.8em",
+    margin: "2em 8px 0em 8px",
+  },
   hr: {
     "border-style": "solid",
     "border-width": "1px 0 0",
@@ -105,7 +122,10 @@ export const DefaultTheme: Theme = {
     border: "1px solid #dfdfdf",
     padding: "0.25em 0.5em",
   },
-  strong: {},
+  strong: {
+    color: "#ff5f2e",
+    "font-weight": "bold",
+  },
   em: {
     margin: "1.5em 8px",
     "letter-spacing": "0.1em",

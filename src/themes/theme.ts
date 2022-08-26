@@ -1,8 +1,10 @@
 import { WxRenderOptions } from "@/components/wechat-editor/render/render";
+import { merge } from "@/utils/Utils";
 import { keysOf } from "element-plus/es/utils";
 import { CSSProperties } from "vue";
 import { FootNoteInfo } from "./default/extensions/FootNode";
 export interface Theme {
+  common: CSSProperties;
   code: CSSProperties;
   blockquote: CSSProperties;
   blockquote__p: CSSProperties;
@@ -101,10 +103,11 @@ export abstract class RenderFunc {
     if (!theme) {
       return "";
     }
-    return Object.keys(theme[key])
+    const result = merge(theme.common, theme[key]) as CSSProperties;
+    return Object.keys(result)
       .map((k) => {
         const t = k as keyof CSSProperties;
-        return k + ":" + theme[key][t];
+        return k + ":" + result[t];
       })
       .join(";");
   }

@@ -1,86 +1,59 @@
 <template>
   <el-container>
     <el-header class="top">
-      <!-- <div>
+      <div>
         <img src="favicon.png" class="web-icon" alt="icon" />
         <span class="web-title">公众号 Markdown 编辑器 </span>
       </div>
-      <el-form size="mini" class="ctrl" :inline="true">
-        <el-form-item label="Editor Themes">
-          <el-select
-            v-model="currentEditorTheme"
-            size="mini"
-            placeholder="选择字体"
-            @change="editorThemeChanged"
-          >
-            <el-option
-              v-for="editorTheme in editorThemes"
-              :key="editorTheme.value"
-              :label="editorTheme.label"
-              :value="editorTheme.value"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item>
+      <el-form class="ctrl" :inline="true">
         <el-form-item label="Fonts">
           <el-select
-            v-model="currentFont"
-            size="mini"
+            v-model="state.currentFonts"
             placeholder="选择字体"
             @change="fontChanged"
           >
             <el-option
-              v-for="font in builtinFonts"
-              :style="{ fontFamily: font.value }"
-              :key="font.value"
-              :label="font.label"
-              :value="font.value"
+              v-for="font in Object.keys(state.builtinFonts)"
+              :style="{ fontFamily: font }"
+              :key="font"
+              :label="font"
+              :value="state.builtinFonts[font]"
             >
-              <span class="select-item-left">{{ font.label }}</span>
-              <span class="select-item-right">Abc</span>
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="Font Size">
           <el-select
-            v-model="currentSize"
-            size="mini"
+            v-model="state.currentSize"
             placeholder="选择段落字体大小"
             @change="sizeChanged"
           >
             <el-option
-              v-for="size in sizeOption"
-              :key="size.value"
-              :label="size.label"
-              :value="size.value"
+              v-for="size in Object.keys(state.builtinSize)"
+              :key="size"
+              :label="size"
+              :value="state.builtinSize[size]"
             >
-              <span class="select-item-left">{{ size.label }}</span>
-              <span class="select-item-right">{{ size.desc }}</span>
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="Themes">
+        <el-form-item label="Code Themes">
           <el-select
-            v-model="currentTheme"
+            v-model="state.currentCodeTheme"
             size="mini"
             placeholder="选择主题样式"
-            @change="themeChanged"
+            @change="codeThemeChanged"
           >
             <el-option
-              v-for="theme in themeOption"
-              :key="theme.value"
-              :label="theme.label"
-              :value="theme.value"
+              v-for="theme in Object.keys(state.builtinCodeTheme)"
+              :key="theme"
+              :label="theme"
+              :value="state.builtinCodeTheme[theme]"
             >
-              <span class="select-item-left">{{ theme.label }}</span>
-              <span class="select-item-right">{{ theme.author }}</span>
             </el-option>
           </el-select>
         </el-form-item>
       </el-form>
-      <el-button class="about" @click="aboutDialogVisible = true"
-        >关于</el-button
-      > -->
     </el-header>
     <el-main class="main-body">
       <el-row :gutter="10" class="main-section">
@@ -92,7 +65,10 @@
           />
         </el-col>
         <el-col :span="12" class="preview-wrapper">
-          <wechat-editor :source="state.output" />
+          <wechat-editor
+            :source="state.output"
+            :themeHelper="state.themeHelper"
+          />
         </el-col>
       </el-row>
     </el-main>
@@ -103,18 +79,46 @@
 import { defineComponent, reactive, ref } from "vue";
 import CodeMirror from "@/components/CodeMirror.vue";
 import WechatEditor from "@/components/wechat-editor/WechatEditor.vue";
+import { addStyleLabel, changeTheme, replaceStyle } from "@/utils/Utils";
+import {
+  BuiltinFonts,
+  BuiltinSize,
+  BuintinCodeTheme,
+  STYLE_LABELS,
+} from "@/utils/Constant";
+import { defaultThemeHelper } from "@/themes/default/DefaultTheme";
 
 export default defineComponent({
   components: { CodeMirror, WechatEditor },
   setup() {
+    addStyleLabel(STYLE_LABELS);
+    changeTheme("code-theme", "monokai-sublime");
+    changeTheme("basic-theme", "app");
     const state = reactive({
       source: "",
       output: "",
+      currentFonts: "",
+      builtinFonts: BuiltinFonts,
+      currentSize: "",
+      builtinSize: BuiltinSize,
+      currentCodeTheme: "",
+      builtinCodeTheme: BuintinCodeTheme,
+      themeHelper: defaultThemeHelper,
     });
 
     const method = {
       change: (source: string) => {
         state.output = source;
+      },
+      fontChanged: (fonts: string) => {
+        state.themeHelper.getTheme().common["font-family"] = fonts;
+      },
+      sizeChanged: (size: string) => {
+        state.themeHelper.getTheme().common["font-size"] = size;
+      },
+      codeThemeChanged: (codeTheme: string) => {
+        replaceStyle("code-theme", codeTheme);
+        state.themeHelper.reRender = true;
       },
     };
 

@@ -1,0 +1,9 @@
+.common {
+  font-size: 14px;
+  font-family: Menlo,
+    Operator Mono,
+    Consolas,
+    Monaco,
+    monospace;
+    white-space: normal;
+}

@@ -5,50 +5,86 @@
       >，然后在公众号编辑器粘贴
     </div>
     <div class="preview" contenteditable="true">
-      <div v-html="output"></div>
+      <div ref="wechatBoxRef" v-html="output"></div>
     </div>
   </section>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
+import {
+  defineComponent,
+  computed,
+  onUpdated,
+  nextTick,
+  onMounted,
+  ref,
+  PropType,
+  watch,
+} from "vue";
 import { ElMessage } from "element-plus";
-import { marked } from "marked";
-import { WxRender } from "./render/render";
-import { defaultThemeHelper } from "@/themes/default/DefaultTheme";
 
+import { parserMarkdown, solveHtml } from "@/utils/Converter";
+
+import { replaceStyle } from "@/utils/Utils";
+import { defaultThemeHelper, ThemeHelper } from "@/themes/default/DefaultTheme";
 export default defineComponent({
   props: {
     source: {
       type: String,
       default: "",
     },
+    themeHelper: {
+      type: Object as PropType<ThemeHelper>,
+      default: () => defaultThemeHelper,
+    },
   },
+  // directives: {
+  //   highlight: (el) => {
+  //     const blocks = el.querySelectorAll("pre code");
+  //     console.log(blocks);
+  //     blocks.forEach((block: any) => {
+  //       hljs.highlightElement(block);
+  //     });
+  //   },
+  // },
   setup(props) {
+    const wechatBoxRef = ref<HTMLElement>();
     const output = computed(() =>
-      marked(props.source, {
-        renderer: new WxRender({
-          themeHelper: defaultThemeHelper,
-        }),
-      })
+      parserMarkdown(props.source, props.themeHelper)
     );
-
+    watch(
+      () => props.themeHelper.reRender && props.themeHelper.rendered,
+      (nv) => {
+        if (nv) {
+          parserMarkdown(props.source, props.themeHelper);
+        }
+      }
+    );
+    // onUpdated(async () => {
+    //   await nextTick();
+    //   console.log(prettify);
+    //   prettify.prettyPrint();
+    // });
     const method = {
-      copy: () => {
+      copy: async () => {
         try {
           // navigator clipboard 需要https等安全上下文
           if (navigator.clipboard && window.isSecureContext) {
             // navigator clipboard 向剪贴板写文本
-            navigator.clipboard.writeText(output.value).then(
+            const result = solveHtml(wechatBoxRef.value!);
+            const data = new Blob([result], { type: "text/html" });
+            // eslint-disable-next-line no-undef
+            const item = new ClipboardItem({ "text/html": data });
+            navigator.clipboard.write([item]).then(
               () => {
                 ElMessage({
                   message: "复制成功",
                   type: "success",
                 });
               },
-              () => {
+              (e) => {
                 ElMessage({
-                  message: "复制失败",
+                  message: "复制失败" + e,
                   type: "error",
                 });
               }
@@ -64,6 +100,7 @@ export default defineComponent({
     };
     return {
       output,
+      wechatBoxRef,
       ...method,
     };
   },

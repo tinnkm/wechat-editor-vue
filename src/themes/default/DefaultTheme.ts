@@ -1,3 +1,4 @@
+import { fa } from "element-plus/es/locale";
 import { RenderFunc, RenderParam, Tag, Theme } from "../theme";
 import { BlockquoteRenderFunc } from "./BlockquoteRenderFunc";
 import { CodeRenderFunc } from "./CodeRenderFunc";
@@ -20,6 +21,8 @@ import { TableRenderFunc } from "./TableRenderFunc";
 export class DefaultThemeHelper {
   public readonly theme: Theme = DefaultTheme;
   public static readonly themeName = "default";
+  public reRender = false;
+  public rendered = false;
   public renderFuncs = [
     new BlockquoteRenderFunc(),
     new TableRenderFunc(),

@@ -12,9 +12,12 @@
   "dependencies": {
     "@codemirror/autocomplete": "^6.1.0",
     "@codemirror/lang-markdown": "^6.0.1",
+    "axois": "^0.0.1-security",
     "codemirror": "^6.0.1",
     "core-js": "^3.8.3",
     "element-plus": "^2.2.13",
+    "highlight.js": "^11.6.0",
+    "juice": "^8.1.0",
     "marked": "^4.0.18",
     "register-service-worker": "^1.7.2",
     "vue": "^3.2.13",
