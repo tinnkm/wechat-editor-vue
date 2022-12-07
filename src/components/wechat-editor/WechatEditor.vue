@@ -11,21 +11,11 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  computed,
-  onUpdated,
-  nextTick,
-  onMounted,
-  ref,
-  PropType,
-  watch,
-} from "vue";
+import { defineComponent, computed, ref, PropType, watch } from "vue";
 import { ElMessage } from "element-plus";
 
 import { parserMarkdown, solveHtml } from "@/utils/Converter";
 
-import { replaceStyle } from "@/utils/Utils";
 import { defaultThemeHelper, ThemeHelper } from "@/themes/default/DefaultTheme";
 export default defineComponent({
   props: {
@@ -71,7 +61,7 @@ export default defineComponent({
           // navigator clipboard 需要https等安全上下文
           if (navigator.clipboard && window.isSecureContext) {
             // navigator clipboard 向剪贴板写文本
-            const result = solveHtml(wechatBoxRef.value!);
+            const result = solveHtml(wechatBoxRef.value ?? new HTMLElement());
             const data = new Blob([result], { type: "text/html" });
             // eslint-disable-next-line no-undef
             const item = new ClipboardItem({ "text/html": data });

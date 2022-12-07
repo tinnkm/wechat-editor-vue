@@ -76,7 +76,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from "vue";
+import { defineComponent, reactive } from "vue";
 import CodeMirror from "@/components/CodeMirror.vue";
 import WechatEditor from "@/components/wechat-editor/WechatEditor.vue";
 import { addStyleLabel, changeTheme, replaceStyle } from "@/utils/Utils";

@@ -8,7 +8,7 @@ import { WxRender } from "@/components/wechat-editor/render/render";
 export const solveHtml = (element: HTMLElement): string => {
   let styles = "";
   STYLE_LABELS.forEach((style) => {
-    styles += document.getElementById(style)!.innerText;
+    styles += document.getElementById(style)?.innerText;
   });
   let res = "";
   try {

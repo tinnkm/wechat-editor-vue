@@ -2,7 +2,7 @@
   <div class="code-mirror" ref="codeMirrorRef" />
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, reactive, ref } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import { EditorView, minimalSetup } from "codemirror";
 import { ViewUpdate } from "@codemirror/view";
 import { markdown } from "@codemirror/lang-markdown";

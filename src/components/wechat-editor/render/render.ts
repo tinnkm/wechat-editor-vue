@@ -11,14 +11,14 @@ import {
   TableRenderParam,
 } from "@/themes/theme";
 import { merge } from "@/utils/Utils";
-import { Renderer, marked } from "marked";
+import { Renderer } from "marked";
 export class WxRenderOptions {
   fonts?: string;
   fontSize?: number;
   highlight?(
     code: string,
     lang: string,
-    callback?: (error: any, code?: string) => void
+    callback?: (error: Error, code?: string) => void
   ): string | void;
   themeHelper: ThemeHelper = defaultThemeHelper;
 }

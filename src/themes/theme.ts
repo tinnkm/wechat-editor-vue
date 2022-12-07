@@ -1,6 +1,5 @@
 import { WxRenderOptions } from "@/components/wechat-editor/render/render";
 import { merge } from "@/utils/Utils";
-import { keysOf } from "element-plus/es/utils";
 import { CSSProperties } from "vue";
 import { FootNoteInfo } from "./default/extensions/FootNode";
 export interface Theme {

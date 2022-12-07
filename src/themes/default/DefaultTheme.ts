@@ -1,4 +1,3 @@
-import { fa } from "element-plus/es/locale";
 import { RenderFunc, RenderParam, Tag, Theme } from "../theme";
 import { BlockquoteRenderFunc } from "./BlockquoteRenderFunc";
 import { CodeRenderFunc } from "./CodeRenderFunc";
